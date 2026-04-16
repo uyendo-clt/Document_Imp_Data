@@ -1,0 +1,100 @@
+--DELETE TMP_STOCKTR;
+DECLARE L_TAC_STOCKTR_PK NUMBER;
+L_TAC_ACC_PK NUMBER;
+L_TAC_ACC_PK_REF NUMBER;
+L_TCO_ITEM_PK NUMBER;
+L_USER_ID VARCHAR2(100):='vng-237';
+P_CRT_BY VARCHAR2(100):=L_USER_ID ||TO_CHAR(SYSDATE,'YYYYMMDD');
+L_STOCKTR_PK_IN NUMBER;
+L_STOCKTR_PK_OUT NUMBER;
+P_TCO_COMPANY_PK NUMBER:=22134;
+BEGIN
+    FOR CUR IN
+    (
+        SELECT DISTINCT C1, 'ADJ_202505_1' VOUCHERNO, 
+				(SELECT A.PK TAC_ABACCTCODE_PK
+                    FROM TAC_ABACCTCODE A 
+                    WHERE A.DEL_IF = 0 
+                    AND TRIM(UPPER(A.AC_CD)) = TRIM(UPPER(C2))
+				) TAC_ABACCTCODE_PK ,
+                '20250501' TR_DATE, 
+                C6 UOM,
+				( 
+					SELECT PK TIN_WAREHOUSE_PK 
+					FROM TAC_WAREHOUSE A 
+					WHERE A.DEL_IF = 0 
+					AND TRIM(UPPER(A.WH_NAME)) = TRIM(UPPER(C7))
+				) AS TIN_WAREHOUSE_PK, 
+				DECODE(TRIM(UPPER(C18)),'156150HC', 436, 356) AS TAC_ABPL_PK, 
+				( 
+					SELECT PK TCO_ITEM_PK 
+					FROM TCO_ITEM A 
+					WHERE A.DEL_IF = 0 
+					AND TRIM(UPPER(A.ITEM_CODE)) = TRIM(UPPER(C4))
+				) AS TCO_ITEM_PK,
+                C10 BEGIN_QTY, C11 BEGIN_AMT, 
+                C12 IN_QTY, C13 IN_AMT, 'VND' IN_CCY ,C13 IN_TRAMT, 
+                TO_NUMBER(ROUND( (NULLIF(TO_NUMBER(C13), 0)) / (NULLIF(TO_NUMBER(C12), 0)), 5)) AS IN_UPRICE, 
+                C14 OUT_QTY, C15 OUT_AMT, 'VND' OUT_CCY ,C15 OUT_TRAMT,
+                TO_NUMBER(ROUND( (NULLIF(TO_NUMBER(C15), 0)) / (NULLIF(TO_NUMBER(C14), 0)), 5)) AS OUT_UPRICE, 
+                C16 END_QTY, C17 END_AMT,
+				(SELECT A.PK TAC_ABACCTCODE_PK_NEW
+                    FROM TAC_ABACCTCODE A 
+                    WHERE A.DEL_IF = 0 
+                    AND TRIM(UPPER(A.AC_CD)) = TRIM(UPPER(C18))
+				) TAC_ABACCTCODE_PK_NEW
+
+		FROM TMP_STOCKTR WHERE C1 > 0
+		AND NVL(C19,'NOT_YET') <>  'IMP'
+        ORDER BY C1 ASC
+    )
+    LOOP 
+        ---------TR_IN-----------
+           
+          SELECT TAC_STOCKTR_SEQ.NEXTVAL  
+            INTO L_STOCKTR_PK_IN FROM DUAL;
+            
+        INSERT INTO TAC_STOCKTR
+                  (PK, STOCKTR_NO, TR_DATE,
+                   TPR_LINE_PK, TCO_BUSPARTNER_PK, TAC_ABPL_PK,
+                   TIN_WAREHOUSE_PK, TCO_ITEM_PK, ITEM_UOM,
+                   TAC_ABACCTCODE_PK, EXPENSE_ACCTCODE_PK,  TRIN_TYPE, INPUT_QTY, IN_AMT,
+                   IN_CCY, IN_TRAMT, TR_TABLE_NM, TR_TABLE_PK, 
+                   DESCRIPTION,  remark, remark2,
+                   IN_UPRICE, TR_STATUS,
+                   STD_YM, TCO_COMPANY_PK, GENUWIN_REMARK, DEL_IF, CRT_BY, CRT_DT, PROCESS_QTY, BY_HAND_YN
+                  )
+           VALUES (L_STOCKTR_PK_IN, CUR.VOUCHERNO, CUR.TR_DATE,
+                   NULL, NULL, CUR.TAC_ABPL_PK,
+                   CUR.TIN_WAREHOUSE_PK, CUR.TCO_ITEM_PK, CUR.UOM,
+                   CUR.TAC_ABACCTCODE_PK_NEW, CUR.TAC_ABACCTCODE_PK, '13', CUR.END_QTY, CUR.END_AMT,
+                   'VND', CUR.END_AMT, 'TAC_STOCKTR', L_STOCKTR_PK_IN,
+                   'AJUST', 'AJUST', 'AJUST', CUR.IN_UPRICE, '2',
+                   SUBSTR (CUR.TR_DATE, 1, 6), P_TCO_COMPANY_PK, 'chuyen so du tk cu 156 ve 2 tk mới 156150HC và 156150HN', 
+                   0, P_CRT_BY, sysdate, 0, 'Y'
+                  );
+        -------TROUT -----
+          SELECT TAC_STOCKTR_SEQ.NEXTVAL  
+            INTO L_STOCKTR_PK_OUT FROM DUAL;
+            
+          INSERT INTO TAC_STOCKTR
+                  (PK, STOCKTR_NO, TR_DATE, TPR_LINE_PK,
+                   TCO_BUSPARTNER_PK, TAC_ABPL_PK, TIN_WAREHOUSE_PK,
+                   TCO_ITEM_PK, ITEM_UOM, TAC_ABACCTCODE_PK, EXPENSE_ACCTCODE_PK,
+                   TROUT_TYPE, OUTPUT_QTY, OUT_AMT, OUT_CCY,
+                   OUT_TRAMT, TR_TABLE_NM, TR_TABLE_PK, DESCRIPTION,
+                   REMARK, REMARK2, OUT_UPRICE, TR_STATUS,
+                   STD_YM, TCO_COMPANY_PK, GENUWIN_REMARK, DEL_IF, CRT_BY, CRT_DT, PROCESS_QTY, BY_HAND_YN
+                  )
+           VALUES (L_STOCKTR_PK_OUT, CUR.VOUCHERNO, CUR.TR_DATE, NULL,
+                   NULL, CUR.TAC_ABPL_PK, CUR.TIN_WAREHOUSE_PK,
+                   CUR.TCO_ITEM_PK, CUR.UOM, CUR.TAC_ABACCTCODE_PK, CUR.TAC_ABACCTCODE_PK_NEW,
+                   '13', CUR.END_QTY, CUR.END_AMT, 'VND',
+                   CUR.END_AMT, 'TAC_STOCKTR', L_STOCKTR_PK_OUT, 'AJUST',
+                   'AJUST', 'AJUST', CUR.OUT_UPRICE, 2,
+                   SUBSTR (CUR.TR_DATE, 1, 6), P_TCO_COMPANY_PK, 'chuyen so du tk cu 156 ve 2 tk mới 156150HC và 156150HN', 0, P_CRT_BY, sysdate, 0, 'Y'
+                  );
+        UPDATE TMP_STOCKTR SET C19 = 'IMP'
+                WHERE C1 = CUR.C1;          
+    END LOOP;
+END;    

@@ -1,0 +1,269 @@
+--DELETE TMP_CNV;
+DECLARE
+P_RTN SYS_REFCURSOR;
+BEGIN
+  FOR cur IN (select C3 , C4, C5,C6, C7,C8,C9 , C10 from TMP_CNV where C10 in ('CK', 'CKHCM')) LOOP
+    AC_IMP_8015010_PARTNER_LIST(CUR.C4, CUR.C6 , CUR.C7 , CUR.C8, CUR.C9 , CUR.C5, CUR.C10, CUR.C3, CUR.C3, 22134,'00','ENG','vng-282',P_RTN);
+    commit; 
+  END LOOP;
+END;
+--SELECT * FROM TCO_BUSPARTNER B, TMP_CNV C WHERE B.PARTNER_ID = C.C4;
+
+
+CREATE OR REPLACE PROCEDURE CUCKOO.AC_IMP_8015010_PARTNER_LIST (
+    P_PARAM1           VARCHAR2-- PARTNER_ID	
+  , P_PARAM2           VARCHAR2-- PARTNER_NAME	
+  , P_PARAM3           VARCHAR2-- TAXCODE
+  , P_PARAM4           VARCHAR2-- ADDRESS	
+  , P_PARAM5           VARCHAR2-- EMAIL_ADDRESS
+  , P_PARAM6           VARCHAR2-- SHORT_NAME
+  , P_PARAM7           VARCHAR2-- Chi Nhánh
+  , P_PARAM8           VARCHAR2-- Parent_Pk
+  , P_PARAM9           VARCHAR2-- CusGroup
+ , P_SELCOMPANY VARCHAR2
+  , P_PARTNER_TYPE VARCHAR2
+  ,  P_LANG               VARCHAR2
+  , P_CRT_BY             VARCHAR2
+  ,  P_RTN_VALUE         OUT SYS_REFCURSOR)
+IS
+    L_CNT		   NUMBER;
+	L_TCO_BUSPARTNER_PK NUMBER;
+	L_TCO_COMPANY_PK NUMBER; 
+	L_PARTNER_ID        NUMBER;
+	L_PARENT_PK         NUMBER;
+	
+	
+	L_VEN_YN        VARCHAR2(1):='N';
+	L_VEN_ACTIVE_YN   VARCHAR2(1):='N';
+	L_CUST_YN        VARCHAR2(1):='N';
+	L_AUTO_YN        VARCHAR2(1):='N'; 
+	
+BEGIN
+    SELECT MAX(TCO_COMPANY_PK)  
+        INTO L_TCO_COMPANY_PK 
+        FROM TAC_COMPANYUSER Z
+        WHERE Z.DEL_IF = 0
+        AND  TRIM(UPPER(Z.USER_ID))  =  TRIM(UPPER(P_CRT_BY)) 
+        AND TCO_COMPANY_PK = P_SELCOMPANY;
+        
+     select a.Pk into L_PARENT_PK from TCO_BUSPARTNER a where a.del_if = 0 and a.PARTNER_ID = P_PARAM8;
+       
+        
+--	
+	IF L_TCO_COMPANY_PK IS NULL   THEN 
+		OPEN P_RTN_VALUE FOR SELECT 'please_mapping_user_login_with_busplace_at_form_company_user_6010020' ERRCODE, '' ERRMSG FROM DUAL;
+		RETURN; 
+	END IF;
+	
+
+		 	SELECT COUNT(*), MAX(PK)
+			INTO L_CNT, L_TCO_BUSPARTNER_PK
+			FROM TCO_BUSPARTNER Z
+			WHERE Z.DEL_IF = 0
+			AND Z.PARTNER_ID = P_PARAM1;
+--			  AND Z.TAX_CODE = P_PARAM3;
+			  
+		IF L_CNT > 0 AND L_TCO_BUSPARTNER_PK IS NOT NULL THEN 
+            
+        NULL;
+
+		ELSE	 
+            
+            IF P_PARTNER_TYPE = '00' 
+            THEN
+                L_CUST_YN := 'Y';
+                L_AUTO_YN  := 'Y';
+            ELSIF P_PARTNER_TYPE = '05' 
+            THEN
+                L_VEN_YN := 'Y';
+                L_VEN_ACTIVE_YN  := 'Y';
+            END IF;
+            
+		
+			SELECT TCO_BUSPARTNER_SEQ.NEXTVAL INTO L_TCO_BUSPARTNER_PK FROM DUAL;
+
+			INSERT INTO TCO_BUSPARTNER(PK
+									 , PARENT_PK
+									 , TCO_COMPANY_PK
+									 , PARTNER_ID
+									 , PARTNER_NAME
+									 , PARTNER_LNAME
+									 , PARTNER_FNAME
+									 , PARTNER_TYPE
+									 , TAX_CODE
+									 , ADDR1
+									 , ADDR2
+									 , ADDR3
+									 , PHONE_NO
+									 , EMAIL_ADDRESS
+									 , FAX_NO
+									 , WEB_SITE
+									 , CUST_YN
+									 , CUST_ACTIVE_YN
+									 , INVOICE_TERMS
+									 , INVOICE_SCHEDULE
+									 , INVOICE_GROUPING
+									 , DELIVERY_TERMS
+									 , CUST_TRADE_TYPE
+									 , CUST_PAYMENT_FORM
+									 , CUST_PAYMENT_TEMRS
+									 , SALE_PRESENTATIVE
+									 , CREDIT_LIMIT
+									 , CREDIT_USED
+									 , CUST_BANK_ACCOUNT
+									 , SALE_DEFAULT_TAX
+									 , VEN_YN
+									 , VEN_ACTIVE_YN
+									 , VEN_PAYMENT_FORM
+									 , VEN_PAYMENT_TERMS
+									 , VEN_BANK_ACCOUNT
+									 , PUR_DEFAULT_TAX
+									 , VEN_TRADE_TYPE
+									 , TRANS_CURRENCY
+									 , NATION
+									 , ACTIVE_YN
+									 , ANNIVERSARY_DATE
+									 , NUMBER_EMPLOYEE
+									 , COMPANY_SIZE
+									 , COMPANY_CAPITAL
+									 , COMPANY_INDUSTY
+									 , COMPANY_PRODUCT
+									 , TAX_OFFICE
+									 , VALID_FROM
+									 , VALID_TO
+									 , DESCRIPTION
+									 , SERIAL_NO
+									 , SHORT_NM
+									 , FORM_NO
+									 , TCO_BPPHOTO_PK
+									 , VOUCHER_TYPE
+									 , AUTO_YN
+									 , VEN_SWIFT_NO
+									 , CUS_SWIFT_NO
+									 , REPRESENTED_BY
+									 , MEMO
+									 , BILL_TO_PK
+									 , DELI_TO_PK
+									 , LICENSE_NO
+									 , TRANSACTION
+									 , CORPORATE_YN
+									 , REPRESENTATIVE
+									 , WORKDIVISION
+									 , NUMBER_BANK
+									 , CRT_BY
+									 , CUST_GROUP 
+                                     , WEBCASH_REMARK )
+			SELECT
+					   L_TCO_BUSPARTNER_PK
+					 , L_PARENT_PK AS P_PARENT_PK
+					 , L_TCO_COMPANY_PK
+					 , TRIM(UPPER(P_PARAM1))
+					 , UPPER(P_PARAM2) AS P_PARTNER_NAME
+					 , UPPER(P_PARAM2) AS P_PARTNER_LNAME
+					 , UPPER(P_PARAM2) AS P_PARTNER_FNAME
+					 , P_PARTNER_TYPE AS P_PARTNER_TYPE
+					 , P_PARAM3 AS L_TAX_CODE
+					 , P_PARAM4 AS P_ADDR1
+					 , P_PARAM4 AS P_ADDR2
+					 , NULL AS P_ADDR3
+					 , null AS P_PHONE_NO
+					 , P_PARAM5 AS P_EMAIL_ADDRESS
+					 , NULL AS P_FAX_NO
+					 , NULL AS P_WEB_SITE
+					 , L_CUST_YN AS P_CUST_YN
+					 , 'N' AS P_CUST_ACTIVE_YN
+					 , NULL AS P_INVOICE_TERMS
+					 , NULL AS P_INVOICE_SCHEDULE
+					 , NULL AS P_INVOICE_GROUPING
+					 , NULL AS P_DELIVERY_TERMS
+					 , NULL AS P_CUST_TRADE_TYPE
+					 , NULL AS P_CUST_PAYMENT_FORM
+					 , NULL AS P_CUST_PAYMENT_TEMRS
+					 , '' AS P_SALE_PRESENTATIVE
+					 , NULL AS P_CREDIT_LIMIT
+					 , NULL AS P_CREDIT_USED
+					 , NULL AS P_CUST_BANK_ACCOUNT
+					 , NULL AS P_SALE_DEFAULT_TAX
+					 , L_VEN_YN AS P_VEN_YN
+					 , L_VEN_ACTIVE_YN AS P_VEN_ACTIVE_YN
+					 , NULL AS P_VEN_PAYMENT_FORM
+					 , NULL AS P_VEN_PAYMENT_TERMS
+					 , NULL AS P_VEN_BANK_ACCOUNT
+					 , NULL AS P_PUR_DEFAULT_TAX
+					 , NULL AS P_VEN_TRADE_TYPE
+					 , NULL AS P_TRANS_CURRENCY
+					 , 'VIE' AS P_NATION
+					 , 'Y' AS P_ACTIVE_YN
+					 , NULL AS P_ANNIVERSARY_DATE
+					 , NULL AS P_NUMBER_EMPLOYEE
+					 , NULL AS P_COMPANY_SIZE
+					 , NULL AS P_COMPANY_CAPITAL
+					 , NULL AS P_COMPANY_INDUSTY
+					 , NULL AS P_COMPANY_PRODUCT
+					 , NULL AS P_TAX_OFFICE
+					 , TO_CHAR(SYSDATE, 'YYYYMMDD') AS P_VALID_FROM
+					 , NULL AS P_VALID_TO
+					 , null AS P_DESCRIPTION
+					 , NULL AS P_SERIAL_NO
+					 , P_PARAM6 AS P_SHORT_NM   
+					 , NULL AS P_FORM_NO
+					 , NULL AS P_TCO_BPPHOTO_PK
+					 , NULL AS P_VOUCHER_TYPE
+					 , L_AUTO_YN AS P_AUTO_YN
+					 , NULL AS P_VEN_SWIFT_NO
+					 , NULL AS P_CUS_SWIFT_NO
+					 , NULL AS P_REPRESENTED_BY
+					 , NULL AS P_MEMO
+					 , NULL AS P_BILL_TO_PK
+					 , NULL AS P_DELI_TO_PK
+					 , NULL AS P_LICENSE_NO
+					 , NULL AS P_TRANSACTION
+					 , NULL AS P_CORPORATE_YN
+					 , NULL AS P_REPRESENTATIVE
+					 , NULL AS P_WORKDIVISION
+					 , NULL AS P_NUMBER_BANK
+					 , NULL AS P_CRT_BY
+					 , P_PARAM9 AS P_CUST_GRP_CD 
+					 , P_CRT_BY || '-' || TO_CHAR(SYSDATE,'YYYYMMDD') AS WEBCASH_REMARK
+					 
+				FROM DUAL;
+
+			--20200818 ADD MAPING BUSINESS PARTNER - BUSPLACE COMPANY
+			 INSERT INTO TCO_BUSPLACE_LIST(PK
+										, TCO_BUSPLACE_PK
+										, LOC_ID
+										, LOC_NM
+										, LOC_LNM
+										, LOC_FNM
+										, NATION
+										, REG_NO
+										, TAX_CD
+										, TAX_OFFICE
+										, TCO_COMPANY_PK
+										, TEI_COMPANY_PK
+										, TCO_BUSPARTNER_PK
+										, TEI_CUSTOMER_PK
+										, TCO_BUSPARTNER_ITF_YN
+										, INTERFACE_DT
+										, INTERFACE_BY
+										, DEL_IF
+										, CRT_BY
+										, CRT_DT)
+				SELECT TCO_BUSPLACE_LIST_SEQ.NEXTVAL PK, PK TCO_BUSPLACE_PK, LOC_ID, LOC_NM, LOC_LNM, LOC_FNM, NATION, REG_NO, TAX_CD, TAX_OFFICE, TCO_COMPANY_PK, TEI_COMPANY_PK, L_TCO_BUSPARTNER_PK TCO_BUSPARTNER_PK
+					 , NULL TEI_CUSTOMER_PK, 'N' TCO_BUSPARTNER_ITF_YN, NULL INTERFACE_DT, NULL INTERFACE_BY, 0 DEL_IF, P_CRT_BY, SYSDATE CRT_DT
+				FROM TCO_BUSPLACE
+				WHERE DEL_IF = 0
+				  AND BIZ_GRP = 'E'
+				  AND TCO_COMPANY_PK = L_TCO_COMPANY_PK and LOC_ID = P_PARAM7 ; 
+  
+            
+	END IF;
+    OPEN P_RTN_VALUE FOR SELECT 'SUCCESS' ERRCODE, '' ERRMSG FROM DUAL
+    RETURN;
+    
+    EXCEPTION WHEN OTHERS THEN
+    OPEN P_RTN_VALUE FOR SELECT 'ERROR_PLEASE_DATA' ERRCODE, '' ERRMSG FROM DUAL;
+
+    
+END;
+/
