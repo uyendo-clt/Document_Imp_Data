@@ -1,0 +1,173 @@
+AK Vina
+
+IP : 26.232.109.130
+RADMIN: AKVINA / bfBJJDDP3rnuVHBmYExZw
+administrator / bfBJP3rnuVHBJDDmYExZw
+
+IBC
+VPN • Username: gnw001 /Password: T-2FskW2BAvk    New pw : gnw001#2026
+Remote: 192.168.254.5 / vinagenuwin/ genuwin@2015
+
+ILSHIN
+IP : 26.1.62.2
+administrator / AaGTJF28mcuKpGhS3G8Gd
+
+113.161.166.21	CHUNSHIN-PRECISION / qXdqxTKSewGwFzx4ShT7q	Administrator / qXdqxTKSShTGwFzx4ew7q
+
+26.237.120.35	JoilVN-Genuwinsupport / Joil123456	administrator / JoilVN#2023@#
+
+
+genufoseca / KZL9p9Fd5ufgdhyAmecBt$!
+
+BK Vina
+Administrator / bPSR97AL$FC8LXFQPbHxfY21
+
+Time of this report: 2/10/2026, 16:42:06
+Machine name: JOILVNSV
+Operating System: Windows Server 2012 R2 Standard 64-bit (6.3, Build 9600) (9600.winblue_ltsb_escrow.230929-1158)
+Language: English (Regional Setting: English)
+System Manufacturer: LENOVO
+System Model: System x3650 M5 -[5462AC1]-
+BIOS: -[TCE124M-2.10]-
+Memory: 65536MB RAM
+
+
+JUNGWOO
+26.229.91.206:53984	
+"RADMIN: JUNGWOO-VINA / bZtrycyKE45LjtL9Qs5vZ port: 53984
+genuerp / JuWo@viNa$24!
+TV: 1174766 683 / Genuwin@!@#$%^"
+
+
+OTM 
+26.78.159.77:3399
+genuerp / QGF7Smu93myS7SmsxV6vmsbKW
+
+KUKIL
+26.233.173.109	
+KUKIL / Nb2R6daZX48vMkyv3ZEdC	
+genuerp / Nb2R6daZXyv3ZEdC48vMk
+
+
+AJ 
+GwAjt2021$
+
+AJ-TOTAL
+FORTICLENT LONG HAU: IP: 113.161.94.102 Port: 11443 gwajt / GwAjt2021$
+
+
+radmin: MAY-AO-VM-GW / FGYJINSmsdfsbj234kjfbK45Dm
+Remote: 26.208.189.145:53984 ;user/pw: genuerp/P@ssW2021w0rd@G
+
+INFO UBASE
+
+38672424/ GW123*&$
+
+
+"RADMIN: AKVINA / bfBJJDDP3rnuVHBmYExZw
+administrator / bfBJP3rnuVHBJDDmYExZw"
+
+site : CUCKOO
+"IP: 42.117.3.146:53984
+Username/Pass: genuerp / %qPmex&$ISBUbFsdjf23WVnKS
+RADMIN: CUCKOO-SVR / JHAIKsdjf233SBF5KSBF NodeJS link: http://42.117.3.146:1789/"
+
+RADMIN: OTM-VINA2 / d5DEdpx32xw6avayFtNsT
+genuerp / QGF7Smu93myS7SmsxV6vmsbKW 26.78.159.77:3399
+
+
+"VPN information: IP WAN: 115.74.246.221/203.113.141.131
+IPSpec information: Preshare key: 1q2w3e4LT!&790r5t6y7u8i9o0p
+mode aggressive
+dhgrp 5 14
+proposal aes128-sha256 aes256-sha256
+account/pwd: erpsupport1 / erp1$790&; erpsupport2/erp2$790&; erpsupport3/erp3$790&
+change pw : UrSG6Lar4TLnpLe
+
+svr ip: 192.168.240.204 genuerp / Administrat0r@20201210$SAMIL / SAMIL-Administrat0r@20201210 Ultra: 33940914 / samilvinaoo18 (mixing PC MS SQL)
+PLC MS SQL: userid : kj23 password : kookjin database : kj2300
+root/Khongbiet@88 nodejs linux svr radmin: HIKNIT-TERMINAL/Khongbiet88
+db: system/esys2@esys"
+
+
+"RADMIN: JOIL-VINA/RvpnJvn24znX3r63h8avftZ9gUsY (IT Joil Vina Removed this Radmin) joilsaito / sa2141988
+administrator / JoilVN#2023@#
+New Radmin: JoilVN-Genuwinsupport / znX3r63h8avftZ9gUsYJoil123456 (IT Joil VIna Create new Radmin)
+"
+
+"RADMIN: SAMJIN / MZPpuJ5TfGNMkqwu49e4a
+IP address Radmin VPN: 26.229.88.54
+115.75.6.207:3333 administrator / SAM@GW#2017"
+
+
+"RADMIN: POSCOENC-HN-SRV / posco@!@#$%^
+genuerp/POSCOENC-hn@20201210 port: 53984"
+
+"RADMIN: DONGIL-VINA / LudsZAQtxRKu9XXsnb8XD
+genuerp / LAQtxRKusnb8XD9XudsZX"
+
+genuerp / Administrat0r@20201210$SAMIL or SAMIL-Administrat0r@20201210
+
+
+VPN information: IP WAN: 115.74.246.221/203.113.141.131
+IPSpec information: Preshare key: 1q2w3e4LT!&790r5t6y7u8i9o0p
+mode aggressive
+dhgrp 5 14
+proposal aes128-sha256 aes256-sha256
+account/pwd: erpsupport1 / erp1$790&; erpsupport2/erp2$790&; erpsupport3/erp3$790&
+
+svr ip: 192.168.240.204 genuerp / Administrat0r@20201210$SAMIL / SAMIL-Administrat0r@20201210 Ultra: 33940914 / samilvinaoo18 (mixing PC MS SQL)
+PLC MS SQL: userid : kj23 password : kookjin database : kj2300
+root/Khongbiet@88 nodejs linux svr radmin: HIKNIT-TERMINAL/Khongbiet88
+db: system/esys2@esys
+ 
+
+
+administrator / T32dpxNsdw5DE$x6avayFt ip: 42.96.47.109
+RADMIN: PARISVN-SVR / d5DEdpxNw6avayFtsT32x
+sys / baguette2 sid: baguette
+
+Server V1: administrator / T32dpxNsdw5DE$x6avayFt ip public: 42.96.44.8
+Server V2: administrator / T32dpxNsdw5DE$x6avayFt ip public: 42.96.44.179 
+id/pass: vng-282-01 
+
+
+KyungBang 
+26.185.79.125 genuerp / TNnL6ctZ5nWE6u9!5zd4te
+
+
+DONGIL-VINA
+26.236.211.133	
+genuerp / LAQtxRKusnb8XD9XudsZX
+
+YUPOONG
+
+RADMIN:YUPOONG-DN / ZZ86E8mp46vKY49YR6xYH port:4500
+YPVN\genuwin \ Pass: Ypvn@1234 genusuite.yupoong.com.vn:4500 / Domain: YPVN ; 
+YPVN\genuwin / Ypvn@1234
+MOVINA - Yupoong VN
+genusuitemv.yupoong.com.vn:4500
+
+
+SYSTEM / MOVINA2
+
+movina_YUPOONG=
+  (DESCRIPTION=
+    (ADDRESS_LIST=
+      (ADDRESS=
+        (PROTOCOL=TCP)
+        (HOST=genusuite.yupoong.com.vn)
+        (PORT=1521)
+      )
+      (ADDRESS=
+        (PROTOCOL=TCP)
+        (HOST=115.78.173.10)
+        (PORT=1521)
+      )
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=movina)
+    )
+  )
+
